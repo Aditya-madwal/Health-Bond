@@ -1,5 +1,6 @@
 from django.db import models
 from userprofiles.models import user_profile
+import datetime
 # Create your models here.
 
 class Chatroom(models.Model) :
@@ -26,3 +27,4 @@ class JoinedChatrooms(models.Model) :
 
     def __str__(self):
         return f"{self.chatroom} --> {self.user.user.username}"
+    

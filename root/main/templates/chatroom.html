@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,108 +11,47 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
       rel="stylesheet"
     />
-    <title>Chatroom</title>
+    <title>{{chatroom.name}}</title>
+    <link rel="stylesheet" href="{% static 'css/chatroom.css' %}" />
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <!-- HTMX link-->
     <style>
-      * {
-        font-family: "Inter", sans-serif;
-      }
-
-      .chatroom-container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-      }
-      .chatroom-heading {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 20px;
-        position: sticky;
-        top: 0px;
-        background: white;
-        padding: 20px;
-      }
-      .message {
-        margin-bottom: 10px;
-        padding: 10px;
+      textarea {
+        height: 30px;
+        border: 1px solid;
         border-radius: 5px;
-      }
-      .message.sent-by-me {
-        background-color: #dcf8c6;
-        text-align: right;
-      }
-      .message.received {
-        background-color: #f0f0f0;
-      }
-      .message-sender {
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
-      .message-content {
-        margin-bottom: 5px;
-      }
-      .message-timestamp {
-        font-size: 12px;
-        color: #666;
-      }
-      .input-section {
-        margin-top: 20px;
-        display: flex;
-        align-items: center;
-        position: sticky;
-        bottom: 0px;
-        background: white;
-        padding: 22px;
-      }
-      .message-input {
-        flex: 1;
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-        margin-right: 10px;
-      }
-      .send-button {
-        background-color: #007bff;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
+        resize: vertical;
       }
     </style>
   </head>
   <body>
-    <div class="chatroom-container">
+    <input type="hidden" id="current-user" value="{{ user.username }}" />
+    <div class="chatroom-container" id="scrollable-div">
       <div class="chatroom-heading">{{chatroom.name}}</div>
-
-      {% for msg in messages %}
-      <br />
-      {% if msg.sender.user.username == user.username%}
-      <div class="message sent-by-me">
-        <div class="message-sender">You</div>
-        <div class="message-content">{{msg.content}}</div>
-        <div class="message-timestamp">{{msg.date_time}}</div>
+      <div id="chats">
+        {% for msg in messages %}
+        <br />
+        {% if msg.sender.user.username == user.username%}
+        <div class="message sent-by-me">
+          <div class="message-sender">You</div>
+          <div class="message-content">{{msg.content}}</div>
+          <div class="message-timestamp">{{msg.date_time}}</div>
+        </div>
+        {% else %}
+        <div class="message received">
+          <div class="message-sender">{{msg.sender.user.username}}</div>
+          <div class="message-content">{{msg.content}}</div>
+          <div class="message-timestamp">{{msg.date_time}}</div>
+        </div>
+        {% endif %} {% endfor %}
       </div>
-      {% else %}
-      <div class="message received">
-        <div class="message-sender">{{msg.sender.user.username}}</div>
-        <div class="message-content">{{msg.content}}</div>
-        <div class="message-timestamp">{{msg.date_time}}</div>
-      </div>
-      {% endif %} {% endfor %}
 
       <!-- Input Section -->
-      <form method="post" class="input-section">
-        {% csrf_token %}
-        <input
-          type="text"
-          class="message-input"
-          name="message"
-          placeholder="Type your message here"
-        />
+      <form method="post" class="input-section" id="msg_send_form">
+        {% csrf_token %} {{form.content}}
         <button class="send-button" type="submit">Send</button>
       </form>
     </div>
   </body>
+  <script src="{% static 'js/chatroom.js' %}"></script>
 </html>
