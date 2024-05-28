@@ -136,10 +136,12 @@
               <a class="nav-link disabled" aria-disabled="true">Disabled</a>
             </li>
           </ul>
-          <form class="d-flex" role="search">
+          <form class="d-flex" role="search" method="POST">
+            {% csrf_token %}
             <input
               class="form-control me-2"
               type="search"
+              name="searchquery"
               placeholder="Search"
               aria-label="Search"
             />
@@ -157,9 +159,7 @@
         <div class="chatrooms">
           {% for room in joined_chatrooms %}
           <div class="chatroom">
-            <a href="chatroom/{{room.chatroom.code}}"
-              >{{room.chatroom.name}}
-            </a>
+            <a href="chatroom/{{room.code}}">{{room.name}} </a>
           </div>
           {% endfor %}
         </div>

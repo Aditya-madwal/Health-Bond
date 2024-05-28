@@ -33,11 +33,7 @@ socket.onclose = (event) => {
 //     // Process the received message (e.g., update UI, trigger actions)
 // };
 
-// sending the msg to socket :
-
-
-
-// console.log(textareaValue);
+// sending the msg to socket on some particular event:
 
 document.getElementById('msg_send_form').addEventListener('submit', function (event) {
     let formElement = document.getElementById("msg_send_form");

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create Chatroom</title>
+    <style>
+      .form-container {
+        width: 50%;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-field {
+        margin-bottom: 15px;
+      }
+
+      .form-field label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .form-field input,
+      .form-field textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      .form-field input[type="submit"] {
+        width: auto;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 10px 20px;
+        border-radius: 5px;
+      }
+
+      .form-field input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+      .messages {
+        margin-bottom: 20px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .messages.success {
+        background-color: #dff0d8;
+        color: #3c763d;
+      }
+
+      .messages.error {
+        background-color: #f2dede;
+        color: #a94442;
+      }
+
+      .errorlist {
+        color: #a94442;
+      }
+    </style>
+  </head>
+  <body>
+    {% if messages %}
+    <div class="messages-container">
+      {% for message in messages %}
+      <div class="messages {{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <div class="form-container">
+      <h2>Create a New Chatroom</h2>
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-field">
+          <label for="id_name">Name</label>
+          {{ form.name }}
+        </div>
+        <div class="form-field">
+          <label for="id_desc">Description</label>
+          {{ form.desc }}
+        </div>
+        <div class="form-field">
+          <input type="submit" value="Create Chatroom" />
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

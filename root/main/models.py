@@ -5,7 +5,7 @@ import datetime
 
 class Chatroom(models.Model) :
     code =  models.CharField(max_length=7)
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, unique=True)
     desc = models.TextField(max_length=500)
 
     def __str__(self):
