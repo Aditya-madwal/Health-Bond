@@ -103,3 +103,19 @@ function scrollToBottom(elementId) {
 document.addEventListener("DOMContentLoaded", function () {
     scrollToBottom("scrollable-div");
 });
+
+
+// chatroom hideable :
+function toggleSidebar() {
+    var sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('hidden');
+}
+
+document.querySelector("textarea").placeholder = "Enter some message...";
+
+document.addEventListener('keydown', function (event) {
+    if (event.ctrlKey && event.key === 'b') {
+        event.preventDefault();  // Prevent the default browser action for Ctrl+B
+        toggleSidebar();
+    }
+});

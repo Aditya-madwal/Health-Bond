@@ -50,9 +50,11 @@ def homeview(request) :
 
 @login_required(login_url=loginview)
 def chatroomview(request, roomcode) :
+    user_profile_instance = user_profile.objects.get(user=request.user)
     chatroom = Chatroom.objects.get(code = roomcode)
     messages_list = messages.objects.filter(chatroom = chatroom)
     form = chatmessagecreationform(request.POST)
+    joined_chatrooms = Chatroom.objects.filter(joinedchatrooms__user=user_profile_instance)
 
     context = {
         'chatroom' : chatroom,
@@ -60,6 +62,7 @@ def chatroomview(request, roomcode) :
         'messages' : messages_list,
         'form' : form,
         'roomcode' :roomcode,
+        'joined_chatrooms' : joined_chatrooms,
     }
 
     if request.method == 'POST' :

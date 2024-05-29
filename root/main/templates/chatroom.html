@@ -15,37 +15,66 @@
     <link rel="stylesheet" href="{% static 'css/chatroom.css' %}" />
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <!-- HTMX link-->
-    <style>
-      textarea {
-        height: 30px;
-        border: 1px solid;
-        border-radius: 5px;
-        resize: vertical;
-      }
-    </style>
   </head>
   <body>
-    <input type="hidden" id="current-user" value="{{ user.username }}" />
-    <div class="chatroom-container" id="scrollable-div">
-      <div class="chatroom-heading">{{chatroom.name}}</div>
-      <div id="chats">
-        {% for msg in messages %}
-        <br />
-        {% if msg.sender.user.username == user.username%}
-        <div class="message sent-by-me">
-          <div class="message-sender">You</div>
-          <div class="message-content">{{msg.content}}</div>
-          <div class="message-timestamp">{{msg.date_time}}</div>
-        </div>
+    <div class="sidebar" id="sidebar">
+      <div class="gohome-heading"><a href="/main">← Back to home</a></div>
+      <div class="sidebar-heading">Chatrooms</div>
+      <ul class="chatroom-list">
+        <!-- List of all joined chatrooms -->
+        {% for jc in joined_chatrooms %} {% if jc.name == chatroom.name %}
+        <li>
+          <a>
+            <div class="chatroom-box" style="background-color: #3b5998">
+              <a href="/main/chatroom/{{jc.code}}" class="chatroom-link"
+                >{{jc.name}}</a
+              >
+              <div class="chatroom-description-small">{{jc.desc}}</div>
+            </div>
+          </a>
+        </li>
         {% else %}
-        <div class="message received">
-          <div class="message-sender">{{msg.sender.user.username}}</div>
-          <div class="message-content">{{msg.content}}</div>
-          <div class="message-timestamp">{{msg.date_time}}</div>
-        </div>
+        <li>
+          <a>
+            <div class="chatroom-box">
+              <a href="/main/chatroom/{{jc.code}}" class="chatroom-link"
+                >{{jc.name}}</a
+              >
+              <div class="chatroom-description-small">{{jc.desc}}</div>
+            </div>
+          </a>
+        </li>
         {% endif %} {% endfor %}
+      </ul>
+    </div>
+    <input type="hidden" id="current-user" value="{{ user.username }}" />
+    <div class="chatroom-container">
+      <div class="chatroom-heading">{{chatroom.name}}</div>
+      <div id="scrollable-div">
+        <div id="chats">
+          <div
+            class="chatroom-description-small"
+            style="color: black; text-align: center; opacity: 0.7"
+          >
+            "{{chatroom.desc}}"
+          </div>
+          {% for msg in messages %}
+          <br />
+          {% if msg.sender.user.username == user.username %}
+          <div class="message sent-by-me">
+            <div class="message-sender">You</div>
+            <div class="message-content">{{msg.content}}</div>
+            <div class="message-timestamp">{{msg.date_time}}</div>
+          </div>
+          {% else %}
+          <div class="message received">
+            <div class="message-sender">{{msg.sender.user.username}}</div>
+            <div class="message-content">{{msg.content}}</div>
+            <div class="message-timestamp">{{msg.date_time}}</div>
+          </div>
+          {% endif %} {% endfor %}
+        </div>
       </div>
-
       <!-- Input Section -->
       <form method="post" class="input-section" id="msg_send_form">
         {% csrf_token %} {{form.content}}
