@@ -1,7 +1,7 @@
 import requests
 
 API_URL = "https://api-inference.huggingface.co/models/OpenAssistant/oasst-sft-4-pythia-12b-epoch-3.5"
-headers = {"Authorization": "Bearer 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"}
+headers = {"Authorization": "<token>"}
 
 def query(payload):
 	response = requests.post(API_URL, headers=headers, json=payload)

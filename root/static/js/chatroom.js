@@ -17,8 +17,6 @@ let websocketProtocol = window.location.protocol === "https:" ? "wss" : "ws";
 let wsEndpoint = `${websocketProtocol}://${window.location.host}/ws/notification/${roomcode}/`;
 let socket = new WebSocket(wsEndpoint);
 
-
-
 socket.onopen = (event) => {
     console.log("WebSocket connection opened!");
 };
