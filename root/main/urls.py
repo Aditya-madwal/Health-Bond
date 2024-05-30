@@ -11,4 +11,5 @@ urlpatterns = [
     path('joinchatroom/<slug:roomcode>', views.join_chatroom, name = 'joinchatroom'),
     path('leavechatroom/<slug:roomcode>', views.leave_chatroom, name = 'leavechatroom'),
     path('createchatroom/', views.create_chatroom, name = 'createchatroom'),
+    path('searchview/', views.searchview, name = 'search'),
 ]

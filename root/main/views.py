@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.db.models import Q
 
 from .models import *
 from .forms import *
@@ -16,6 +17,19 @@ from .matchmaking import get_keywords
 # Create your views here.
 
 @login_required(login_url=loginview)
+def searchview(request) :
+    squery = request.GET['searchquery']
+    asked_rooms = Chatroom.objects.filter(Q(desc__contains=squery)|Q(name__contains=squery))
+    context = {
+        'rooms' : asked_rooms,
+    }
+    if request.method == 'POST' :
+        s = request.POST['search']
+        return redirect(f'/main/searchview/?searchquery={s}')
+    return render(request, 'searchview.html', context=context)
+    
+
+@login_required(login_url=loginview)
 def homeview(request) :
     user_profile_instance = user_profile.objects.get(user=request.user)
     joined_chatrooms = Chatroom.objects.filter(joinedchatrooms__user=user_profile_instance)
@@ -30,8 +44,8 @@ def homeview(request) :
         final_not_joined.append(chatroom)
     
     if request.method == 'POST' :
-        s = request.POST['searchquery']
-        return redirect(f'/main/?searchquery={s}')
+        s = request.POST['search']
+        return redirect(f'/main/searchview/?searchquery={s}')
 
     keywords = get_keywords(user_profile_instance.bio)
     keywords = [x.lower() for x in keywords]
