@@ -1,14 +1,13 @@
-import requests
+import os
+import google.generativeai as genai
 
-API_URL = "https://api-inference.huggingface.co/models/OpenAssistant/oasst-sft-4-pythia-12b-epoch-3.5"
-headers = {"Authorization": "<token>"}
+os.environ['GOOGLE_API_KEY'] = "AIzaSyDmLQuUp2Rxi0_5U6EtExfERczih72he_c"
+genai.configure(api_key = os.environ['GOOGLE_API_KEY'])
 
-def query(payload):
-	response = requests.post(API_URL, headers=headers, json=payload)
-	return response.json()
-	
-output = query({
-	"inputs": "Can you please let us know more details about your ",
-})
+model = genai.GenerativeModel('gemini-pro')
 
-print(output)
+def get_keywords(input_text) :
+	response = model.generate_content(f"list out all the important keywords from the given text and return them in a comma seperated form : {input_text}")
+
+	list_of_keywords = response.text.split(',')
+	return list_of_keywords

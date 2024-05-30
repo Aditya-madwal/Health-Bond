@@ -166,6 +166,16 @@
         </div>
       </div>
       <div class="widget">
+        <h2>Chatrooms suggested for you :</h2>
+        <div class="chatrooms">
+          {% for room in suggested_rooms %}
+          <div class="chatroom">
+            <a href="chatroom/{{room.code}}">{{room.name}} </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="widget">
         <h2>Chatrooms you can join :</h2>
         <div class="chatrooms">
           {% for room in other_chatrooms %}

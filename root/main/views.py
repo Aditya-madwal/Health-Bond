@@ -11,6 +11,8 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages as django_messages
 
+from .matchmaking import get_keywords
+
 # Create your views here.
 
 @login_required(login_url=loginview)
@@ -31,6 +33,17 @@ def homeview(request) :
         s = request.POST['searchquery']
         return redirect(f'/main/?searchquery={s}')
 
+    keywords = get_keywords(user_profile_instance.bio)
+    keywords = [x.lower() for x in keywords]
+    print('===========================================')
+    print(user_profile_instance.bio)
+    print(keywords)
+    suggested_rooms = []
+    for room in final_not_joined :
+        if len(list(set(keywords) & set(room.desc.split(' ')))) > 0:
+            suggested_rooms.append(room)
+    print('===========================================')
+
     try :
         asked_chatroom = request.GET['searchquery']
         chatrooms = Chatroom.objects.filter(name__contains = asked_chatroom)
@@ -44,6 +57,7 @@ def homeview(request) :
         'user' : user_profile_instance,
         'joined_chatrooms' : set(final_joined),
         'other_chatrooms' : set(final_not_joined),
+        'suggested_rooms' : set(suggested_rooms),
     }
 
     return render(request, 'home.html', context = context)
