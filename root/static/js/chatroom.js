@@ -47,7 +47,6 @@ document.getElementById('msg_send_form').addEventListener('submit', function (ev
     );
     console.log(message);
     formElement.querySelector("textarea").value = "";
-
 });
 
 

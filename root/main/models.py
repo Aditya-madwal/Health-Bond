@@ -25,6 +25,13 @@ class JoinedChatrooms(models.Model) :
     user = models.ForeignKey(user_profile,on_delete=models.CASCADE)
     chatroom = models.ForeignKey(Chatroom, on_delete=models.CASCADE)
 
+    def save(self, *args, **kwargs):
+        existing_pair = JoinedChatrooms.objects.filter(user=self.user, chatroom=self.chatroom)
+
+        if not existing_pair:
+            super().save(*args, **kwargs)
+        else:
+            raise ValueError('A person with the same name and age already exists.')
+
     def __str__(self):
         return f"{self.chatroom} --> {self.user.user.username}"
-    

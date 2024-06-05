@@ -106,6 +106,7 @@
     </nav>
     <div class="container">
       <h1>Welcome to HealthBond, {{user.user.username}}</h1>
+      <h6>"{{user.bio}}"</h6>
 
       <form class="input-group mb-3" method="post">
         {% csrf_token %}

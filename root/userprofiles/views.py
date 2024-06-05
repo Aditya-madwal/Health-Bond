@@ -11,7 +11,6 @@ from django.contrib import messages
 
 from .models import user_profile
 
-
 # ---------- USER REGISTRATION/LOGIN/LOGOUT -------------
 
 def register_view(request) :
@@ -26,7 +25,7 @@ def register_view(request) :
             form.save()
             username = request.POST['username']
             user = User.objects.get(username = username)
-            new_user_profile = user_profile.objects.create(user = user, bio = 'random')
+            new_user_profile = user_profile.objects.create(user = user, bio = request.POST['bio'])
 
             return redirect(loginview)
 

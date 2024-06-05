@@ -20,8 +20,14 @@ from .matchmaking import get_keywords
 def searchview(request) :
     squery = request.GET['searchquery']
     asked_rooms = Chatroom.objects.filter(Q(desc__contains=squery)|Q(name__contains=squery))
+    joined_chatrooms = Chatroom.objects.filter(joinedchatrooms__user=user_profile.objects.get(user=request.user))
+    final_joined = []
+    for chatroom in joined_chatrooms:
+        final_joined.append(chatroom)
+
     context = {
         'rooms' : asked_rooms,
+        'final_joined' : final_joined,
     }
     if request.method == 'POST' :
         s = request.POST['search']

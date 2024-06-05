@@ -18,6 +18,7 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
       body {
         font-family: "Inter", sans-serif;
@@ -162,6 +163,10 @@
         margin-left: 20px;
         cursor: pointer;
       }
+      a {
+        text-decoration: none;
+        color: white;
+      }
     </style>
   </head>
   <body>
@@ -178,8 +183,7 @@
       <input
         type="text"
         class="form-control"
-        placeholder="Recipient's username"
-        aria-label="Recipient's username"
+        placeholder="Search for chatrooms..."
         aria-describedby="basic-addon2"
         name="search"
       />
@@ -194,10 +198,26 @@
           <div class="user-name">{{room.name}}</div>
           <div class="user-bio">{{room.desc}}</div>
         </div>
-        <button class="view-button">Join</button>
+        {% if room in final_joined %}
+        <button
+          class="view-button"
+          id="{{room.code}}"
+          style="background-color: #ee4e4e"
+          onclick="leavechatroomfunc('{{room.code}}',this)"
+        >
+          <a>Leave</a>
+        </button>
+        {% else %}
+        <button
+          class="view-button"
+          onclick="joinchatroomfunc('{{room.code}}', this)"
+        >
+          <a>Join</a>
+        </button>
+        {% endif %}
       </div>
       {% endfor %}
-      <!-- Add more user boxes as needed -->
     </div>
   </body>
+  <script src="{% static 'js/roomoperations.js' %}"></script>
 </html>
