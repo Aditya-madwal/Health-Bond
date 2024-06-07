@@ -77,8 +77,13 @@
       </div>
       <!-- Input Section -->
       <form method="post" class="input-section" id="msg_send_form">
-        {% csrf_token %} {{form.content}}
+        {% csrf_token %} {{form.content}} {% if flag == "joined" %}
         <button class="send-button" type="submit">Send</button>
+        {% else %}
+        <button class="send-button" disabled style="opacity: 0.5">
+          Join room to send
+        </button>
+        {% endif %}
       </form>
     </div>
   </body>

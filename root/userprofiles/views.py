@@ -24,6 +24,10 @@ def register_view(request) :
         if form.is_valid() :
             form.save()
             username = request.POST['username']
+            if request.POST['password1'] == request.POST['password2'] :
+                pass
+            else :
+                raise ValueError("passwords din't match.")
             user = User.objects.get(username = username)
             new_user_profile = user_profile.objects.create(user = user, bio = request.POST['bio'])
 

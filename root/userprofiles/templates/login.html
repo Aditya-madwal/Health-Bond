@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="{% static 'css/login.css' %}" />
   </head>
   <body>
+    <h2 style="text-align: center">
+      Register to <span style="color: blue">HealthBond</span>
+    </h2>
     {% for msg in messages %}
     <div class="message">
       <h3>{{ msg }}</h3>
@@ -45,6 +48,13 @@
         </div>
       </form>
     </div>
-    <a href="{% url 'register' %}">Sign up first</a>
+    <div class="login-option">
+      <p>
+        Don't have an account yet?
+        <a href="/user/register"
+          ><b><u>SignUp here</u></b></a
+        >
+      </p>
+    </div>
   </body>
 </html>

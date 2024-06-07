@@ -33,7 +33,7 @@ def searchview(request) :
         s = request.POST['search']
         return redirect(f'/main/searchview/?searchquery={s}')
     return render(request, 'searchview.html', context=context)
-    
+
 
 @login_required(login_url=loginview)
 def homeview(request) :
@@ -90,6 +90,11 @@ def chatroomview(request, roomcode) :
     messages_list = messages.objects.filter(chatroom = chatroom)
     form = chatmessagecreationform(request.POST)
     joined_chatrooms = Chatroom.objects.filter(joinedchatrooms__user=user_profile_instance)
+    try :
+        JoinedChatrooms.objects.get(user = user_profile_instance, chatroom = chatroom)
+        flag = "joined"
+    except :
+        flag = "not joined"
 
     context = {
         'chatroom' : chatroom,
@@ -98,6 +103,7 @@ def chatroomview(request, roomcode) :
         'form' : form,
         'roomcode' :roomcode,
         'joined_chatrooms' : joined_chatrooms,
+        'flag' : flag,
     }
 
     if request.method == 'POST' :
