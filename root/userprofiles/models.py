@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class user_profile(models.Model) :
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    pfp = models.ImageField(default='')
+    pfp = models.ImageField(default="Default_pfp.svg.webp", blank=True, null=True)
     bio = models.TextField(max_length=300)
 
     def __str__(self):

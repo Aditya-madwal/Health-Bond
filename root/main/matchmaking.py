@@ -2,7 +2,7 @@ import os
 import google.generativeai as genai
 from dotenv import load_dotenv
 
-genai.configure(api_key = 'AIzaSyD2dDZ4JH_JDiVso0sdeIsrjBxcfbFlAq8')
+genai.configure(api_key = 'AIzaSyCzsMtY-fL3_WX1eWL_XzAHAsQzNKbUThM')
 
 model = genai.GenerativeModel('gemini-pro')
 

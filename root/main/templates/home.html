@@ -26,11 +26,50 @@
     <link rel="stylesheet" href="{% static 'css/home.css' %}" />
     <style>
       body {
-        font-family: Arial, sans-serif;
+        font-family: "inter", sans-serif;
         margin: 0;
         padding: 0;
         background-color: #f5f5f5;
       }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #6964ff;
+        padding: 10px 20px;
+        color: white;
+      }
+
+      .navbar-left {
+        flex: 1;
+      }
+
+      .company-name {
+        text-decoration: none;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .navbar-right {
+        display: flex;
+        gap: 15px;
+      }
+
+      .nav-item {
+        text-decoration: none;
+        color: white;
+        font-size: 18px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      .nav-item:hover {
+        background-color: #5f1aff;
+      }
+
       .container {
         max-width: 800px;
         margin: 50px auto;
@@ -97,11 +136,12 @@
   </head>
   <body>
     <nav class="navbar">
-      <div class="logo">HealthBond</div>
-      <div class="right-section">
-        <a href="{% url 'logout' %}?next={{ request.path }}">
-          <button id="logout-button">Logout</button>
-        </a>
+      <div class="navbar-left">
+        <a href="/main" class="company-name">HealthBond</a>
+      </div>
+      <div class="navbar-right">
+        <a href="/main/user/{{userr.username}}" class="nav-item">Profile</a>
+        <a href="/user/logout" class="nav-item">Logout</a>
       </div>
     </nav>
     <div class="container">
@@ -128,7 +168,7 @@
         <div class="chatrooms">
           {% for room in joined_chatrooms %}
           <div class="chatroom">
-            <a href="chatroom/{{room.code}}">{{room.name}} </a>
+            <a href="view_chatroom/{{room.code}}">{{room.name}} </a>
           </div>
           {% endfor %}
         </div>
@@ -138,7 +178,7 @@
         <div class="chatrooms">
           {% for room in suggested_rooms %}
           <div class="chatroom">
-            <a href="chatroom/{{room.code}}">{{room.name}} </a>
+            <a href="view_chatroom/{{room.code}}">{{room.name}} </a>
           </div>
           {% endfor %}
         </div>
@@ -148,7 +188,7 @@
         <div class="chatrooms">
           {% for room in other_chatrooms %}
           <div class="chatroom">
-            <a href="chatroom/{{room.code}}">{{room.name}} </a>
+            <a href="view_chatroom/{{room.code}}">{{room.name}} </a>
           </div>
           {% endfor %}
         </div>

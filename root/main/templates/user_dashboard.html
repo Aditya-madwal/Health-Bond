@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/user_dashboard.css' %}" />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <div class="profile-section">
+        {% if profile.pfp.url != default_image_url %}
+        <img src="{{profile.pfp.url}}" alt="User Image" class="profile-image" />
+        {% else %}
+
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"
+          alt="User Image"
+          class="profile-image"
+        />
+        {% if auth == "yes" %}
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %} {{ form.pfp }}
+          <button type="submit">Save</button>
+        </form>
+        {% else %} {% endif %} {% endif %}
+        <h2>{{profile.user.first_name}} {{profile.user.last_name}}</h2>
+        <p>@{{profile.user.username}}</p>
+        <p>{{profile.bio}}</p>
+      </div>
+      <div class="details-section">
+        <h3>Joined Chatrooms</h3>
+        <div class="chatrooms-list">
+          {% for room in joined_chatrooms %}
+          <div class="chatroom">
+            <div class="chatroom-details">
+              <h4>{{room.chatroom.name}}</h4>
+              <p>{{room.chatroom.desc}}</p>
+            </div>
+            <a
+              href="/main/view_chatroom/{{room.chatroom.code}}"
+              class="view-button"
+              >View</a
+            >
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{room.name}}</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/chatroom_dashboard.css' %}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-left">
+        <a href="/main" class="company-name">HealthBond</a>
+      </div>
+      <div class="navbar-right">
+        <a href="/main/user/{{user.username}}" class="nav-item">Profile</a>
+        <a href="/user/logout" class="nav-item">Logout</a>
+      </div>
+    </nav>
+    <div class="dashboard-container">
+      <div class="chatroom-details">
+        <h2>{{room.name}}</h2>
+        <p>{{room.desc}}</p>
+        <div class="action-buttons">
+          {% if flag == "joined" %}
+          <button
+            id="{{room.code}}"
+            class="leave-button"
+            onclick="leavechatroomfunc('{{room.code}}', this); pop_list('{{user.username}}', this)"
+          >
+            Leave
+          </button>
+          {% else %}
+          <button
+            id="{{room.code}}"
+            class="join-button"
+            onclick="joinchatroomfunc('{{room.code}}', this); append_list('{{user.username}}', this);"
+          >
+            Join
+          </button>
+          {% endif %}
+          <button class="join-button">
+            <a href="/main/chatroom/{{room.code}}">Enter Chatroom</a>
+          </button>
+        </div>
+      </div>
+      <div class="user-list">
+        <h3>Users in Chatroom</h3>
+        <ul id="member_list">
+          {% for member in members %}
+          <li class="user" id="{{member.user.user.username}}">
+            <span class="username">{{member.user.user.username}}</span>
+            <button class="view-button">
+              <a href="/main/user/{{member.user.user.username}}">View</a>
+            </button>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </body>
+  <script src="{% static 'js/room_view_operations.js' %}"></script>
+</html>

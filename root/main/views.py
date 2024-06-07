@@ -75,6 +75,7 @@ def homeview(request) :
 
     context = {
         'user' : user_profile_instance,
+        'userr' : request.user,
         'joined_chatrooms' : set(final_joined),
         'other_chatrooms' : set(final_not_joined),
         'suggested_rooms' : set(suggested_rooms),
@@ -112,18 +113,53 @@ def chatroomview(request, roomcode) :
 
 @login_required(login_url=loginview)
 def user_dashboard(request, username):
-    if username == request.user.username :
-        # account holder is viewing his own dashboard :
-        pass
-    else :
-        # user is viewing someone else's dashboard :
-        pass
-    return
 
+    if username == request.user.username :
+        profile = user_profile.objects.get(user = request.user)
+        form = ProfilePictureForm(request.POST, request.FILES, instance=profile)
+        # account holder is viewing his own dashboard :
+        joined_chatrooms = JoinedChatrooms.objects.filter(user = profile)
+        context = {
+            'profile' : profile,
+            'joined_chatrooms' : joined_chatrooms,
+            'form' : form,
+            'auth' : 'yes',
+        }
+        if request.method == 'POST':
+            if form.is_valid():
+                profile_f = form.save(commit=False)
+                profile_f.save()
+                return redirect(f"/main/user/{profile.user.username}")
+        return render(request, "user_dashboard.html", context = context)
+    else :
+        profile = user_profile.objects.get(user = User.objects.get(username = username))
+        joined_chatrooms = JoinedChatrooms.objects.filter(user = profile)
+        context = {
+            'profile' : profile,
+            'joined_chatrooms' : joined_chatrooms,
+            'auth' : 'no',
+        }
+        return render(request, "user_dashboard.html", context = context)
 
 @login_required(login_url=loginview)
-def chatroom_dashboard(request, username):
-    pass
+def chatroom_dashboard(request, roomcode):
+    room = Chatroom.objects.get(code = roomcode)
+    user = user_profile.objects.get(user = request.user)
+    try :
+        JoinedChatrooms.objects.get(chatroom = room, user = user)
+        flag = "joined"
+    except :
+        flag = "not joined"
+    
+    members = JoinedChatrooms.objects.filter(chatroom = room)
+    
+    context = {
+        'room' : room,
+        'flag' : flag,
+        'members' : members,
+        'user' : request.user,
+    }
+    return render(request, 'chatroom_dashboard.html', context=context)
 
 @login_required(login_url=loginview)
 def join_chatroom(request, roomcode):

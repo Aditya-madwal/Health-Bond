@@ -13,3 +13,8 @@ class ChatroomForm(forms.ModelForm):
     class Meta:
         model = Chatroom
         fields = ['name', 'desc']
+
+class ProfilePictureForm(forms.ModelForm):
+    class Meta:
+        model = user_profile
+        fields = ['pfp']
