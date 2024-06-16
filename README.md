@@ -29,8 +29,8 @@ HealthChat is a web application built using Django, JavaScript, HTML, and CSS. I
 ### Steps
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your/repository.git
-   cd HealthChat
+   git clone [https://github.com/your/repository.git](https://github.com/Aditya-madwal/Health-Bond/)
+   cd root
    ```
 2. **Install dependencies:**
    ```bash
