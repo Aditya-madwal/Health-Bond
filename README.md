@@ -15,11 +15,15 @@ HealthChat is a web application built using Django, JavaScript, HTML, and CSS. I
 <!-- Include screenshots here to visually represent your app -->
 - ![Screenshot 1](screenshots/register.png)
 - ![Screenshot 2](screenshots/login.png)
-- ![Screenshot 3](screenshots/home.png)
+- ![Screenshot 4](screenshots/home.png)
+- ![Screenshot 5](screenshots/search.png)
+- ![Screenshot 6](screenshots/room_dashboard.png)
+- ![Screenshot 7](screenshots/chatroom.png)
+- ![Screenshot 8](screenshots/user.png)
 
 ## Installation
 ### Prerequisites
-- Python 3.x
+- Python (>= 3.10)
 - Django
 
 ### Steps
