@@ -1,4 +1,4 @@
-# HealthChat App
+# HealthBond
 
 ## Description
 HealthBond is a web application built using Django, JavaScript, HTML, and CSS. It helps individuals with similar illnesses connect and communicate through dedicated chatrooms. Users can register, login, create chatrooms, join existing ones, and manage their profile and chatroom memberships.
